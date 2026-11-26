@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ItemSO", menuName = "/ScriptableObject/ItemSO")]
+[CreateAssetMenu(fileName = "ItemSO", menuName = "ScriptableObject/Item/ItemSO")]
 public class ItemSO : ScriptableObject
 {
     public enum Rarity
@@ -18,7 +18,7 @@ public class ItemSO : ScriptableObject
     public Rarity itemRarity;
     public Sprite itemSprite;
 
-    private int GetItemValue()
+    public int GetItemValue()
     {
         switch (itemRarity)
         {
