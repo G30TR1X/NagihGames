@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ItemGold
   m_EditorClassIdentifier: 
   itemRarity: 3
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: bb8a3261b3825d242a8dd0bb8ba2defd, type: 3}

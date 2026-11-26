@@ -16,7 +16,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI storageValueText;
     [SerializeField] private Transform itemStorageContainer;
     [SerializeField] private Transform itemStorageTemplate;
-    private List<ItemSO> storageQueue;
+    private List<ItemSO> storageQueue = new();
 
     /* Rarity Gacha Percentage Input Field */
     [SerializeField] private TMP_InputField metalInputField;
@@ -43,6 +43,12 @@ public class GameUI : MonoBehaviour
             itemValue += $"{item.itemRarity} = {item.GetItemValue()} Coins\n";
         itemValueText.text = itemValue;
 
+        metalPercentage = float.Parse(metalInputField.text);
+        bronzePercentage = float.Parse(bronzeInputField.text);
+        silverPercentage = float.Parse(silverInputField.text);
+        goldPercentage = float.Parse(goldInputField.text);
+        diamondPercentage = float.Parse(diamondInputField.text);
+
         gachaButton.onClick.AddListener(() =>
         {
             if (playerCoins < itemCost)
@@ -64,7 +70,10 @@ public class GameUI : MonoBehaviour
             }
 
             if (MaxPercentageOver())
-                metalPercentage = maxPercentage - PercentageSum;
+            {
+                metalPercentage = maxPercentage - (PercentageSum() - metalPercentage);
+                metalInputField.text = metalPercentage.ToString();
+            }
         });
 
         bronzeInputField.onValueChanged.AddListener((currPercentage) =>
@@ -76,7 +85,10 @@ public class GameUI : MonoBehaviour
             }
 
             if (MaxPercentageOver())
-                bronzePercentage = maxPercentage - PercentageSum;
+            {
+                bronzePercentage = maxPercentage - (PercentageSum() - bronzePercentage);
+                bronzeInputField.text = bronzePercentage.ToString();
+            }
         });
 
         silverInputField.onValueChanged.AddListener((currPercentage) =>
@@ -88,7 +100,10 @@ public class GameUI : MonoBehaviour
             }
 
             if (MaxPercentageOver())
-                silverPercentage = maxPercentage - PercentageSum;
+            {
+                silverPercentage = maxPercentage - (PercentageSum() - silverPercentage);
+                silverInputField.text = silverPercentage.ToString();
+            }
         });
 
         goldInputField.onValueChanged.AddListener((currPercentage) =>
@@ -100,7 +115,10 @@ public class GameUI : MonoBehaviour
             }
 
             if (MaxPercentageOver())
-                goldPercentage = maxPercentage - PercentageSum;
+            {
+                goldPercentage = maxPercentage - (PercentageSum() - goldPercentage);
+                goldInputField.text = goldPercentage.ToString();
+            }
         });
 
         diamondInputField.onValueChanged.AddListener((currPercentage) =>
@@ -112,31 +130,31 @@ public class GameUI : MonoBehaviour
             }
 
             if (MaxPercentageOver())
-                diamondPercentage = maxPercentage - PercentageSum;
+            {
+                diamondPercentage = maxPercentage - (PercentageSum() - diamondPercentage);
+                diamondInputField.text = diamondPercentage.ToString();
+            }
         });
     }
-
-    private float PercentageSum() => (metalPercentage + bronzePercentage + silverPercentage + goldPercentage + diamondPercentage);
-    private bool MaxPercentageOver() => PercentageSum() > maxPercentage
 
     private ItemSO GetItemGacha()
     {
         int rng = Random.Range(0, int.MaxValue);
         rng %= (int) maxPercentage;
 
-        int firstTier = metalPercentage, secondTier = firstTier + bronzePercentage, thirdTier = secondTier + silverPercentage, fourthTier = thirdTier + goldPercentage;
+        int firstTier = (int) metalPercentage, secondTier = firstTier + (int) bronzePercentage, thirdTier = secondTier + (int) silverPercentage, fourthTier = thirdTier + (int) goldPercentage, fifthTier = fourthTier + (int) diamondPercentage;
 
-        ItemSO.Rarity chosenRarity;
+        int chosenRarity = 0;
         if (rng >= 0 && rng <= firstTier)
-            chosenRarity = ItemSO.Rarity.Metal;
+            chosenRarity = 0;
         if (rng > firstTier && rng <= secondTier)
-            chosenRarity = ItemSO.Rarity.Bronze;
+            chosenRarity = 1;
         if (rng > secondTier && rng <= thirdTier)
-            chosenRarity = ItemSO.Rarity.Silver;
+            chosenRarity = 2;
         if (rng > thirdTier && rng <= fourthTier)
-            chosenRarity = ItemSO.Rarity.Gold;
-        if (rng > fourthTier && rng <= maxPercentage)
-            chosenRarity = ItemSO.Rarity.Diamond;
+            chosenRarity = 3;
+        if (rng > fourthTier && rng <= Mathf.Min(fifthTier, maxPercentage))
+            chosenRarity = 4;
 
         ItemSO randomItem = itemListSO.itemList[chosenRarity];
         return randomItem;
@@ -154,10 +172,21 @@ public class GameUI : MonoBehaviour
             StorageItemSingleUI storageItemScript = newStorageItem.GetComponent<StorageItemSingleUI>();
             storageItemScript.SetStorageItem(item);
             storageItemScript.SetupStorageItem();
+            storageValue += item.GetItemValue();
         }
 
         storageValueText.text = $"Storage Value: {storageValue}";
     }
 
-    public void IncreasePlayerCoins(int amount) => playerCoins += amount;
+    private float PercentageSum() => (metalPercentage + bronzePercentage + silverPercentage + goldPercentage + diamondPercentage);
+
+    private bool MaxPercentageOver() => PercentageSum() > maxPercentage;
+
+    public void RemoveStorageItem(ItemSO itemSold)
+    {
+        playerCoins += itemSold.GetItemValue();
+
+        storageQueue.Remove(itemSold);
+        UpdateStorageVisual();
+    }
 }

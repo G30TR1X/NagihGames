@@ -8,7 +8,7 @@ public class StorageItemSingleUI : MonoBehaviour
     private GameUI mainGameUI;
     private Button storageItemButton;
 
-    [SerializeField] private Outline storageItemOutline;
+    [SerializeField] private Image storageItemOutline;
     [SerializeField] private Image storageItemImage;
 
     private ItemSO storageItem;
@@ -22,12 +22,12 @@ public class StorageItemSingleUI : MonoBehaviour
 
     private void Start()
     {
-        storageItemButton.onClick.AddListener(() => mainGameUI.IncreasePlayerCoins(storageItem.GetItemValue()));
+        storageItemButton.onClick.AddListener(() => mainGameUI.RemoveStorageItem(storageItem));
     }
 
     public void SetupStorageItem()
     {
         storageItemImage.sprite = storageItem.itemSprite;
-        storageItemOutline.effectColor = storageItem.GetOutlineColor();
+        storageItemOutline.color = storageItem.GetOutlineColor();
     }
 }

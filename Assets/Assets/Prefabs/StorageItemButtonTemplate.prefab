@@ -285,5 +285,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f75b57355d0797943bfb932c9628dbe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storageItemOutline: {fileID: 0}
+  storageItemOutline: {fileID: 7978566765917935014}
   storageItemImage: {fileID: 4769742240048347517}
