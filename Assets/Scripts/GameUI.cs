@@ -11,6 +11,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private ItemListSO itemListSO;
     [SerializeField] private Button gachaButton;
     [SerializeField] private TextMeshProUGUI itemValueText;
+    [SerializeField] private TextMeshProUGUI playerCoinsText;
 
     /* Storage UI Settings */
     [SerializeField] private TextMeshProUGUI storageValueText;
@@ -43,6 +44,8 @@ public class GameUI : MonoBehaviour
             itemValue += $"{item.itemRarity} = {item.GetItemValue()} Coins\n";
         itemValueText.text = itemValue;
 
+        UpdatePlayerCoinsVisual();
+
         metalPercentage = float.Parse(metalInputField.text);
         bronzePercentage = float.Parse(bronzeInputField.text);
         silverPercentage = float.Parse(silverInputField.text);
@@ -59,6 +62,7 @@ public class GameUI : MonoBehaviour
             ItemSO randomItem = GetItemGacha();
             storageQueue.Add(randomItem);
             UpdateStorageVisual();
+            UpdatePlayerCoinsVisual();
         });
 
         metalInputField.onValueChanged.AddListener((currPercentage) =>
@@ -178,6 +182,8 @@ public class GameUI : MonoBehaviour
         storageValueText.text = $"Storage Value: {storageValue}";
     }
 
+    private void UpdatePlayerCoinsVisual() => playerCoinsText.text = $"Player Coins: {playerCoins.ToString()}";
+
     private float PercentageSum() => (metalPercentage + bronzePercentage + silverPercentage + goldPercentage + diamondPercentage);
 
     private bool MaxPercentageOver() => PercentageSum() > maxPercentage;
@@ -188,5 +194,6 @@ public class GameUI : MonoBehaviour
 
         storageQueue.Remove(itemSold);
         UpdateStorageVisual();
+        UpdatePlayerCoinsVisual();
     }
 }

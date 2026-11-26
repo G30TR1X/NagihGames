@@ -28,6 +28,6 @@ public class StorageItemSingleUI : MonoBehaviour
     public void SetupStorageItem()
     {
         storageItemImage.sprite = storageItem.itemSprite;
-        storageItemOutline.color = storageItem.GetOutlineColor();
+        storageItemOutline.color = storageItem.itemOutlineColor;
     }
 }

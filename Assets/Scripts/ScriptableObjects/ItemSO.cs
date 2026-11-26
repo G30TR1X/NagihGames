@@ -17,6 +17,7 @@ public class ItemSO : ScriptableObject
 
     public Rarity itemRarity;
     public Sprite itemSprite;
+    public Color itemOutlineColor;
 
     public int GetItemValue()
     {
@@ -33,24 +34,6 @@ public class ItemSO : ScriptableObject
             case Rarity.Metal:
             default:
                 return 10;
-        }
-    }
-
-    public Color GetOutlineColor()
-    {
-        switch (itemRarity)
-        {
-            case Rarity.Bronze:
-                return new Color(192, 69, 17);
-            case Rarity.Silver:
-                return new Color(171, 171, 171);
-            case Rarity.Gold:
-                return new Color(255, 177, 0);
-            case Rarity.Diamond:
-                return new Color(0, 43, 255);
-            case Rarity.Metal:
-            default:
-                return new Color(48, 48, 48);
         }
     }
 }
