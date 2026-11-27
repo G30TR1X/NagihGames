@@ -191,7 +191,16 @@ public class PolytronGameUI : MonoBehaviour
 
     private float PercentageSum() => (metalPercentage + bronzePercentage + silverPercentage + goldPercentage + diamondPercentage);
 
-    private float FinalPercentage(float percent) => (percent / PercentageSum()) * 100f;
+    private float FinalPercentage(float percent)
+    {
+        if (PercentageSum() == 0)
+        {
+            Debug.Log("Invalid percentages: total cannot be zero");
+            return 0;
+        }
+
+        return (percent / PercentageSum()) * 100f;
+    }
 
     public void RemoveStorageItem(ItemSO itemSold)
     {
