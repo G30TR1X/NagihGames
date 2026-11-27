@@ -17,6 +17,7 @@ public class ItemSO : ScriptableObject
 
     public Rarity itemRarity;
     public Sprite itemSprite;
+    public Sprite itemOutlineSprite;
     public Color itemOutlineColor;
 
     public int GetItemValue()

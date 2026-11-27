@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemRarity: 2
   itemSprite: {fileID: 21300000, guid: 65ed0d0cc03601549902b64f49038478, type: 3}
+  itemOutlineSprite: {fileID: 21300000, guid: f20d12412f874c846803fdc379b408f5, type: 3}
   itemOutlineColor: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
